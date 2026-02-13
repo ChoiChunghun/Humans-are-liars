@@ -3,16 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Personal Home</title>
+    <title>Chunghun - Personal Site</title>
     <style>
       :root {
-        --bg: #f4f6f3;
-        --surface: rgba(255, 255, 255, 0.76);
-        --ink: #101313;
-        --muted: #516160;
-        --line: rgba(16, 19, 19, 0.1);
-        --brand: #0d8a78;
-        --brand-2: #f08a24;
+        --bg: #f2eee8;
+        --ink: #111015;
+        --muted: #615d66;
+        --line: rgba(17, 16, 21, 0.14);
+        --accent: #d64f2a;
+        --accent-2: #006a62;
+        --panel: rgba(255, 255, 255, 0.72);
+        --radius: 24px;
       }
 
       * {
@@ -27,197 +28,424 @@
         margin: 0;
         color: var(--ink);
         background:
-          radial-gradient(1400px 760px at 100% -16%, rgba(13, 138, 120, 0.18), transparent 62%),
-          radial-gradient(1200px 620px at -20% 120%, rgba(240, 138, 36, 0.2), transparent 58%),
+          radial-gradient(80vw 80vh at -8% -16%, rgba(214, 79, 42, 0.25), transparent 65%),
+          radial-gradient(70vw 60vh at 100% 0%, rgba(0, 106, 98, 0.25), transparent 62%),
+          radial-gradient(80vw 90vh at 0% 120%, rgba(214, 79, 42, 0.16), transparent 68%),
           var(--bg);
-        font-family: "Space Grotesk", "IBM Plex Sans KR", "Pretendard", sans-serif;
-        line-height: 1.6;
+        font-family: "Clash Display", "Satoshi", "Pretendard", "Apple SD Gothic Neo", sans-serif;
+        line-height: 1.45;
+        overflow-x: hidden;
+      }
+
+      .noise {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+        background-image: radial-gradient(rgba(0, 0, 0, 0.12) 0.5px, transparent 0.5px);
+        background-size: 2px 2px;
+        z-index: 0;
       }
 
       .container {
-        width: min(1100px, 92vw);
+        width: min(1180px, 92vw);
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
       }
 
-      .top-nav {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        backdrop-filter: blur(10px);
-        background: rgba(244, 246, 243, 0.84);
-        border-bottom: 1px solid var(--line);
+      .nav {
+        position: fixed;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(1180px, calc(100vw - 24px));
+        z-index: 30;
       }
 
-      .top-nav .container {
+      .nav-shell {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 14px 0;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.62);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(16px);
+        border-radius: 999px;
+        box-shadow: 0 12px 30px rgba(17, 16, 21, 0.12);
       }
 
       .logo {
         margin: 0;
-        font-size: 1rem;
-        letter-spacing: 0.12em;
+        font-size: 0.82rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .menu {
-        display: flex;
-        gap: 0.4rem;
-        list-style: none;
         margin: 0;
         padding: 0;
+        display: flex;
+        gap: 0.35rem;
+        list-style: none;
       }
 
       .menu a {
-        display: inline-block;
         text-decoration: none;
         color: var(--ink);
-        padding: 0.45rem 0.8rem;
+        font-size: 0.84rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
         border-radius: 999px;
         border: 1px solid transparent;
-        font-size: 0.95rem;
+        padding: 0.5rem 0.82rem;
+        transition: all 200ms ease;
       }
 
       .menu a:hover,
       .menu a:focus-visible {
-        border-color: var(--line);
         background: #fff;
+        border-color: var(--line);
       }
 
       .menu a.active {
         color: #fff;
-        background: linear-gradient(90deg, var(--brand), #3f9e8e);
+        background: var(--ink);
       }
 
       .hero {
-        padding: 7rem 0 4rem;
+        min-height: 100vh;
+        display: grid;
+        align-items: end;
+        padding: 120px 0 60px;
       }
 
-      .hero-card {
-        background: var(--surface);
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1.1rem;
+      }
+
+      .hero-main,
+      .hero-side {
+        border-radius: var(--radius);
         border: 1px solid var(--line);
-        border-radius: 26px;
-        padding: clamp(1.4rem, 3.6vw, 2.8rem);
-        box-shadow: 0 16px 44px rgba(16, 19, 19, 0.09);
+        background: var(--panel);
+        backdrop-filter: blur(10px);
+        padding: clamp(1.1rem, 2.8vw, 2rem);
       }
 
-      .kicker {
+      .hero-kicker {
         margin: 0;
         color: var(--muted);
-        font-size: 0.9rem;
+        text-transform: uppercase;
         letter-spacing: 0.14em;
+        font-size: 0.74rem;
+      }
+
+      .hero h1 {
+        margin: 0.7rem 0 0;
+        font-size: clamp(2.2rem, 9vw, 7.2rem);
+        line-height: 0.93;
         text-transform: uppercase;
       }
 
-      .hero h2 {
-        margin: 0.5rem 0 0;
-        font-size: clamp(2rem, 6vw, 4.3rem);
-        line-height: 1.04;
+      .hero p {
+        margin: 1rem 0 0;
+        max-width: 52ch;
+        color: var(--muted);
       }
 
-      .hero p {
-        margin: 1.1rem 0 0;
-        max-width: 60ch;
-        color: var(--muted);
+      .chip-row {
+        margin-top: 1.2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.42rem 0.8rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+      }
+
+      .hero-side {
+        display: grid;
+        align-content: space-between;
+        gap: 0.9rem;
+      }
+
+      .hero-number {
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        line-height: 1;
+        font-weight: 700;
+      }
+
+      .marquee {
+        margin-top: 1rem;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: move 18s linear infinite;
+      }
+
+      .marquee span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.78rem;
+      }
+
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 999px;
+        background: var(--accent);
       }
 
       main {
-        padding-bottom: 5rem;
+        padding-bottom: 70px;
       }
 
       section {
-        scroll-margin-top: 90px;
-        margin-top: 1.2rem;
+        scroll-margin-top: 100px;
+        margin-top: 1.1rem;
       }
 
-      .section-card {
-        background: var(--surface);
+      .panel {
         border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: clamp(1.2rem, 3.2vw, 2.4rem);
+        background: var(--panel);
+        border-radius: var(--radius);
+        backdrop-filter: blur(10px);
+        padding: clamp(1.1rem, 2.8vw, 2rem);
       }
 
-      .section-title {
+      .section-tag {
         margin: 0;
-        font-size: clamp(1.4rem, 3.3vw, 2.1rem);
-      }
-
-      .section-sub {
-        margin: 0.5rem 0 1.2rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
         color: var(--muted);
       }
 
+      .section-title {
+        margin: 0.6rem 0 0;
+        font-size: clamp(1.5rem, 4vw, 3rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+      }
+
+      .about-grid {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.9rem;
+      }
+
+      .about-box {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1rem;
+        background: #fff;
+      }
+
       .work-grid {
+        margin-top: 1rem;
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.8rem;
       }
 
-      .chip {
-        padding: 0.9rem 1rem;
+      .work-card {
         border: 1px solid var(--line);
-        border-radius: 14px;
+        border-radius: 16px;
+        overflow: hidden;
         background: #fff;
       }
 
-      .think-list {
+      .work-thumb {
+        aspect-ratio: 16 / 9;
+        background:
+          linear-gradient(125deg, rgba(0, 106, 98, 0.86), rgba(214, 79, 42, 0.86)),
+          linear-gradient(40deg, #111015, #333);
+        position: relative;
+      }
+
+      .work-thumb::after {
+        content: "Case";
+        position: absolute;
+        left: 0.7rem;
+        bottom: 0.6rem;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.7rem;
+      }
+
+      .work-body {
+        padding: 0.9rem;
+      }
+
+      .work-title {
         margin: 0;
-        padding-left: 1rem;
+        font-size: 1.04rem;
       }
 
-      .think-list li {
-        margin: 0.3rem 0;
+      .work-text {
+        margin: 0.42rem 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
       }
 
-      .contact-row {
+      .think-layout {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 0.9rem;
+      }
+
+      .quote-box,
+      .list-box {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1rem;
+        background: #fff;
+      }
+
+      .quote {
+        margin: 0;
+        font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+        line-height: 1.22;
+      }
+
+      .list-box ul {
+        margin: 0;
+        padding-left: 1.1rem;
+      }
+
+      .list-box li {
+        margin: 0.38rem 0;
+      }
+
+      .contact-layout {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.9rem;
+        align-items: center;
+      }
+
+      .contact-actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.7rem;
+        gap: 0.55rem;
       }
 
       .btn {
-        display: inline-block;
         text-decoration: none;
-        color: #fff;
-        background: linear-gradient(90deg, var(--brand), #2f9c8c);
-        padding: 0.66rem 0.98rem;
-        border-radius: 10px;
-        font-weight: 600;
+        border-radius: 999px;
+        padding: 0.66rem 1rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border: 1px solid transparent;
       }
 
-      .btn.secondary {
+      .btn.primary {
+        color: #fff;
+        background: linear-gradient(120deg, var(--accent), #b74627);
+      }
+
+      .btn.ghost {
         color: var(--ink);
         background: #fff;
-        border: 1px solid var(--line);
+        border-color: var(--line);
       }
 
-      @media (max-width: 820px) {
-        .top-nav .container {
-          align-items: flex-start;
-          gap: 0.7rem;
-          flex-direction: column;
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 480ms ease, transform 480ms ease;
+      }
+
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes move {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .think-layout,
+        .contact-layout,
+        .about-grid {
+          grid-template-columns: 1fr;
         }
 
+        .work-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 110px;
+        }
+      }
+
+      @media (max-width: 680px) {
         .menu {
-          width: 100%;
           overflow-x: auto;
-          padding-bottom: 0.1rem;
+          max-width: 66vw;
+          padding-bottom: 2px;
         }
 
         .work-grid {
           grid-template-columns: 1fr;
         }
+
+        .nav-shell {
+          border-radius: 20px;
+        }
+
+        .logo {
+          font-size: 0.72rem;
+          letter-spacing: 0.1em;
+        }
       }
     </style>
   </head>
   <body>
-    <header class="top-nav">
-      <div class="container">
-        <h1 class="logo">MY SPACE</h1>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="nav">
+      <div class="container nav-shell">
+        <h2 class="logo">CHUNGHUN STUDIO</h2>
         <nav aria-label="Main menu">
           <ul class="menu">
-            <li><a href="#about" class="active">About</a></li>
+            <li><a class="active" href="#about">About</a></li>
             <li><a href="#work">Work</a></li>
             <li><a href="#think">Think</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -227,55 +455,129 @@
     </header>
 
     <div class="container hero">
-      <div class="hero-card">
-        <p class="kicker">Personal Homepage</p>
-        <h2>Build with intention, ship with clarity.</h2>
-        <p>
-          반갑습니다. 이 페이지는 당신의 소개, 작업, 생각, 연락처를 담는 최소한의 개인 홈페이지 템플릿입니다.
-        </p>
+      <div class="hero-grid">
+        <div class="hero-main reveal">
+          <p class="hero-kicker">Digital Designer / Builder</p>
+          <h1>Human, But Sharp.</h1>
+          <p>
+            의도적인 타이포와 공간, 그리고 빠른 실행으로 제품을 설계합니다. 이 사이트는 About, Work, Think,
+            Contact를 중심으로 당신의 세계를 보여주는 포트폴리오 홈입니다.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Brand + Product</span>
+            <span class="chip">Web Experience</span>
+            <span class="chip">Creative Direction</span>
+          </div>
+        </div>
+
+        <aside class="hero-side reveal">
+          <div>
+            <p class="hero-kicker">2026</p>
+            <div class="hero-number">12+</div>
+            <p style="margin: 0; color: var(--muted)">Finished projects in interface and visual systems.</p>
+          </div>
+          <div>
+            <p class="hero-kicker" style="margin-bottom: 0.35rem">Location</p>
+            <strong>Seoul / Remote</strong>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span><i class="dot"></i>About</span>
+        <span><i class="dot"></i>Work</span>
+        <span><i class="dot"></i>Think</span>
+        <span><i class="dot"></i>Contact</span>
+        <span><i class="dot"></i>About</span>
+        <span><i class="dot"></i>Work</span>
+        <span><i class="dot"></i>Think</span>
+        <span><i class="dot"></i>Contact</span>
+        <span><i class="dot"></i>About</span>
+        <span><i class="dot"></i>Work</span>
+        <span><i class="dot"></i>Think</span>
+        <span><i class="dot"></i>Contact</span>
       </div>
     </div>
 
     <main class="container">
-      <section id="about">
-        <article class="section-card">
-          <h3 class="section-title">About</h3>
-          <p class="section-sub">저는 문제를 단순하게 만들고, 끝까지 구현하는 사람입니다.</p>
-          <p>짧은 소개 문장을 이 영역에 입력하세요. 경력, 관심사, 강점을 간단히 정리하면 좋습니다.</p>
-        </article>
-      </section>
-
-      <section id="work">
-        <article class="section-card">
-          <h3 class="section-title">Work</h3>
-          <p class="section-sub">최근 프로젝트 또는 대표 작업을 정리해보세요.</p>
-          <div class="work-grid">
-            <div class="chip"><strong>Project 01</strong><br />브랜딩 + 웹 제작</div>
-            <div class="chip"><strong>Project 02</strong><br />프로토타입 설계</div>
-            <div class="chip"><strong>Project 03</strong><br />서비스 개선 실험</div>
+      <section id="about" class="reveal">
+        <article class="panel">
+          <p class="section-tag">About</p>
+          <h3 class="section-title">Designing Order From Noise</h3>
+          <div class="about-grid">
+            <div class="about-box">
+              <strong>Identity</strong>
+              <p>프로젝트의 핵심 톤을 먼저 정의하고, 시각 언어를 제품까지 일관되게 연결합니다.</p>
+            </div>
+            <div class="about-box">
+              <strong>Method</strong>
+              <p>작은 단위로 빠르게 실험하고, 반응 데이터를 보고 바로 고쳐서 완성도를 올립니다.</p>
+            </div>
           </div>
         </article>
       </section>
 
-      <section id="think">
-        <article class="section-card">
-          <h3 class="section-title">Think</h3>
-          <p class="section-sub">최근에 고민한 주제들을 남기는 공간입니다.</p>
-          <ul class="think-list">
-            <li>좋은 제품은 기능보다 맥락에서 시작한다.</li>
-            <li>속도는 단순함에서 나오고, 단순함은 선택에서 나온다.</li>
-            <li>기록은 실력을 복리로 만든다.</li>
-          </ul>
+      <section id="work" class="reveal">
+        <article class="panel">
+          <p class="section-tag">Work</p>
+          <h3 class="section-title">Selected Cases</h3>
+          <div class="work-grid">
+            <article class="work-card">
+              <div class="work-thumb"></div>
+              <div class="work-body">
+                <h4 class="work-title">Pass Machine</h4>
+                <p class="work-text">이벤트 패스 생성 워크플로우를 하나의 웹 도구로 통합.</p>
+              </div>
+            </article>
+            <article class="work-card">
+              <div class="work-thumb"></div>
+              <div class="work-body">
+                <h4 class="work-title">Identity Sprint</h4>
+                <p class="work-text">브랜드 런칭을 위한 비주얼 시스템 구축 및 런치 페이지 제작.</p>
+              </div>
+            </article>
+            <article class="work-card">
+              <div class="work-thumb"></div>
+              <div class="work-body">
+                <h4 class="work-title">Archive Interface</h4>
+                <p class="work-text">복잡한 데이터를 쉽게 찾도록 구조를 재설계한 콘텐츠 아카이브.</p>
+              </div>
+            </article>
+          </div>
         </article>
       </section>
 
-      <section id="contact">
-        <article class="section-card">
-          <h3 class="section-title">Contact</h3>
-          <p class="section-sub">함께 일하고 싶다면 아래로 연락주세요.</p>
-          <div class="contact-row">
-            <a class="btn" href="mailto:hello@example.com">Email</a>
-            <a class="btn secondary" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <section id="think" class="reveal">
+        <article class="panel">
+          <p class="section-tag">Think</p>
+          <h3 class="section-title">Notes & Principles</h3>
+          <div class="think-layout">
+            <div class="quote-box">
+              <p class="quote">"좋은 인터페이스는 설명이 적고, 사용자의 다음 행동이 자연스럽다."</p>
+            </div>
+            <div class="list-box">
+              <ul>
+                <li>강한 콘셉트 없이 디테일만 쌓으면 평범해진다.</li>
+                <li>기능을 추가하기 전, 흐름을 먼저 정리한다.</li>
+                <li>빠르게 공개하고 실제 반응으로 다듬는다.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="contact" class="reveal">
+        <article class="panel">
+          <p class="section-tag">Contact</p>
+          <h3 class="section-title">Let's Build Something Clear</h3>
+          <div class="contact-layout">
+            <p style="margin: 0; color: var(--muted)">프로젝트 협업, 디자인 컨설팅, 제품 개선 문의를 환영합니다.</p>
+            <div class="contact-actions">
+              <a class="btn primary" href="mailto:japhodbblebrox@gmail.com">Email</a>
+              <a class="btn ghost" href="https://github.com/ChoiChunghun" target="_blank" rel="noopener">GitHub</a>
+            </div>
           </div>
         </article>
       </section>
@@ -284,21 +586,37 @@
     <script>
       const links = document.querySelectorAll('.menu a');
       const sections = document.querySelectorAll('main section');
+      const revealEls = document.querySelectorAll('.reveal');
 
-      const setActiveLink = () => {
-        const y = window.scrollY + 120;
+      const onScrollSpy = () => {
+        const y = window.scrollY + 140;
         sections.forEach((section) => {
           const top = section.offsetTop;
           const height = section.offsetHeight;
           const id = section.getAttribute('id');
           if (y >= top && y < top + height) {
-            links.forEach((l) => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+            links.forEach((link) => {
+              link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+            });
           }
         });
       };
 
-      window.addEventListener('scroll', setActiveLink, { passive: true });
-      setActiveLink();
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('show');
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      revealEls.forEach((el) => io.observe(el));
+      window.addEventListener('scroll', onScrollSpy, { passive: true });
+      onScrollSpy();
     </script>
   </body>
 </html>
